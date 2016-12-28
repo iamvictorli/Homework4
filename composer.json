@@ -1,0 +1,12 @@
+{
+    "require-dev": {
+        "simpletest/simpletest": ">=1.1"
+    },
+    "autoload": {
+        "classmap": [
+            "./src/controllers",
+            "./src/models",
+            "./src/views"
+        ]
+    }
+}
