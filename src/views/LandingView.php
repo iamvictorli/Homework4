@@ -16,6 +16,7 @@ class LandingView extends View {
                 <meta charset="utf-8">
                 <title>PasteChart</title>
                 <link rel="stylesheet" href="src/styles/main.css">
+                <script src="src/scripts/validation.js"></script>
             </head>
             <body>
                 <?php
