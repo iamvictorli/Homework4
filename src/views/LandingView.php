@@ -22,8 +22,8 @@ class LandingView extends View {
                     $heading = new E\headingElement();
                     $heading->render('PasteChart');
 
-                    // $form = new E\form();
-                    // $form->render();
+                    $form = new E\formElement();
+                    $form->render($data);
                 ?>
             </body>
         </html>
