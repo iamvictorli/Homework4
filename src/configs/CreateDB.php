@@ -13,9 +13,10 @@ if($connection) {
     mysqli_select_db($connection, DB_NAME);
 
     $query = "CREATE TABLE DataPoints(
-                md5 VARCHAR(255),
+                md5 VARCHAR(255) NOT NULL,
                 title VARCHAR(255),
-                data VARCHAR(4000)
+                data VARCHAR(4000),
+                PRIMARY KEY(md5)
     )";
     $connection->query($query);
 }

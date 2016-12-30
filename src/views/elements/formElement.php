@@ -17,7 +17,7 @@ class formElement extends Element {
                 <label for="data">Data</label>
                 <textarea id="data" name="data" rows="25" cols="85" placeholder="Text label,Value1,Value2,...,Valuen"></textarea>
                 <input type="submit" name="submit" value="Share">
-                <div id="error_message"></div>
+                <div id="error_message"><?php if (isset($data['error'])) { echo $data['error']; } ?></div>
             </form>
         <?php
     }
