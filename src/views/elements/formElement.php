@@ -9,6 +9,8 @@ class formElement extends Element {
     function render($data) {
         ?>
             <form onsubmit="return CheckData();" action="http://localhost/homework4/index.php">
+                <input type="hidden" name="c" value="ProcoessController">
+                <input type="hidden" name="m" value="invoke">
                 <label for="Chart_Title">Chart title</label>
                 <input type="text" name="Chart_Title" id="Chart_Title">
 

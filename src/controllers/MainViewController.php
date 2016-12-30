@@ -4,7 +4,7 @@ namespace VictorLi\hw4\controller;
 
 use VictorLi\hw4\views as V;
 /**
- * Main/Landing Page of initial site
+ * Main/Landing Controller of initial site
  */
 class MainViewController extends Controller {
     public function invoke($info = []) {
