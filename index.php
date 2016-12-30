@@ -5,5 +5,7 @@ require './vendor/autoload.php';
 
 use VictorLi\hw4\controller as C;
 
-$MainViewController = new C\MainViewController();
-$MainViewController->invoke();
+if (!isset($_REQUEST['c'])) {
+    $MainViewController = new C\MainViewController();
+    $MainViewController->invoke();
+}

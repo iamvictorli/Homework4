@@ -8,11 +8,12 @@ namespace VictorLi\hw4\views\elements;
 class formElement extends Element {
     function render($data) {
         ?>
-            <form action="http://localhost/homework4/index.php" onsubmit="return CheckData()">
+            <form onsubmit="return CheckData();" action="http://localhost/homework4/index.php">
                 <label for="Chart_Title">Chart title</label>
                 <input type="text" name="Chart_Title" id="Chart_Title">
 
-                <textarea name="data" rows="25" cols="50" placeholder="Text label,Value1,Value2,...,Valuen"></textarea>
+                <label for="data">Data</label>
+                <textarea id="data" name="data" rows="25" cols="85" placeholder="Text label,Value1,Value2,...,Valuen"></textarea>
                 <input type="submit" name="submit" value="Share">
                 <div id="error_message"></div>
             </form>
