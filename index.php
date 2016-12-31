@@ -13,4 +13,12 @@ if (!isset($_REQUEST['c'])) {
         $ProcoessController = new C\ProcoessController();
         $ProcoessController->invoke($_REQUEST);
     }
+    else if ($_REQUEST['c'] === 'chart' && $_REQUEST['a'] === 'show') {
+        $ChartsController = new C\ChartsController();
+        $ChartsController->invoke($_REQUEST);
+    }
+    else {
+        echo "Invalid controller or method call";
+    }
+
 }

@@ -26,6 +26,8 @@ class ProcoessController extends Controller {
             $addDataModel->doQuery($data);
 
             //then head to line graph
+            header('Location:http://localhost/homework4/index.php/?c=chart&a=show&arg1=LineGraph&arg2=' . $data['md5']);
+            exit;
         } else {
             $LandingView = new V\LandingView();
             $data['error'] = 'There has been an error in your input. Please make sure to have a title and conform data to the syntax';
