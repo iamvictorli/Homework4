@@ -15,6 +15,7 @@ class LandingView extends View {
             <head>
                 <meta charset="utf-8">
                 <title>PasteChart</title>
+                <base href=<?php echo(BASE_DIRECTORY . '/'); ?>>
                 <link rel="stylesheet" href="src/styles/main.css">
                 <script src="src/scripts/validation.js"></script>
             </head>

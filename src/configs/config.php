@@ -7,3 +7,4 @@ define('USERNAME', 'VictorLi');
 define('PASSWORD', 'password');
 define('DB_NAME', 'PasteChart');
 define('BASE_URL', 'http://localhost/homework4/index.php');
+define('BASE_DIRECTORY', "http://localhost/Homework4");
