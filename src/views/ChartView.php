@@ -18,6 +18,12 @@ class ChartView extends View {
                     <?php
                         $ChartHeading = new E\ChartHeadingElement();
                         $ChartHeading->render($data);
+
+                        $Graph = new E\GraphElement();
+                        $Graph->render($data);
+
+                        $URLElement = new E\URLElement();
+                        $URLElement->render($data);
                      ?>
                 </body>
             </html>

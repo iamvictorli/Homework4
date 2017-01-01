@@ -4,6 +4,7 @@ namespace VictorLi\hw4\controller;
 
 use VictorLi\hw4\views as V;
 use VictorLi\hw4\model as M;
+use VictorLi\hw4\configs as C;
 
 /**
  * Server-side validation on user-input
@@ -26,7 +27,7 @@ class ProcoessController extends Controller {
             $addDataModel->doQuery($data);
 
             //then head to line graph
-            header('Location:http://localhost/homework4/index.php/?c=chart&a=show&arg1=LineGraph&arg2=' . $data['md5']);
+            header('Location:' . BASE_URL .'/?c=chart&a=show&arg1=LineGraph&arg2=' . $data['md5']);
             exit;
         } else {
             $LandingView = new V\LandingView();
