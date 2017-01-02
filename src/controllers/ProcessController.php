@@ -42,14 +42,17 @@ class ProcoessController extends Controller {
     public function validate($info) {
         if (strlen($info['Title']) <= 0 || strlen($info['data']) <= 0 ) { return false; }
 
-        $lines = explode('\n', $info['data']);
+        $formatdata = preg_replace("/\r\n/", "\n", $info['data']);
+
+        $lines = explode('\n', $formatdata);
         if (count($lines) > 50) { return false; }
 
         foreach ($lines as $lineValue) {
             if (count($lineValue) > 80) { return false; }
+            $removeSpacesLine = preg_replace("/\s+/", "", $lineValue);
 
             //splitLines is an array that seperates all the commas in the line
-            $splitLines = explode(',', $lineValue);
+            $splitLines = explode(',', $removeSpacesLine);
             if (ctype_alpha($splitLines[0]) && strlen($splitLines[0]) > 0 && count($splitLines) > 1 && count($splitLines) <= 6) {
 
                 for ($i=1; $i < count($splitLines); $i++) {
@@ -88,7 +91,7 @@ class ProcoessController extends Controller {
                 $jsonData .= '[';
 
                 foreach ($yCoordinates as $y) {
-                    if (empty($yValue) && $y !== '0') {
+                    if (empty($y) && $y !== '0') {
                         $jsonData .= 'null,';
                     } else {
                         $jsonData .= $y . ',';

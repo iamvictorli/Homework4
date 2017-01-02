@@ -11,7 +11,7 @@ class LineGraphHelper {
             <div id="LineGraph"></div>
             <script type="text/javascript">
             var graph = new Chart("LineGraph",
-                {"Jan":7, "Feb":20, "Dec":5}, {"title":"<?php echo($data['title']) ?>"});
+                <?php echo($data['data']) ?>, {"title":"<?php echo($data['title']) ?>"});
              graph.draw();
             </script>
         <?php
