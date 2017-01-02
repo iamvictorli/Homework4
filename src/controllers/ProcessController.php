@@ -18,9 +18,12 @@ class ProcoessController extends Controller {
         $data = [];
         if ($this->validate($chartInfo)) {
 
-
             $data['title'] = $chartInfo['Title'];
-            $data['data'] = $chartInfo['data'];
+
+            //convert data to json
+            $jsonData = $this->convertToJson($chartInfo['data']);
+
+            $data['data'] = $jsonData;
             $data['md5'] = hash("md5", $chartInfo['data']);
             //save all info to database
             $addDataModel = new M\addDataModel();
@@ -61,5 +64,49 @@ class ProcoessController extends Controller {
         }
 
         return true;
+    }
+
+    public function convertToJson($data) {
+        $formatdata = preg_replace("/\r\n/", "\n", $data);
+        $jsonData = '{';
+
+        $seperateLines = explode("\n", $formatdata);
+
+        $FirstLine = true;
+        foreach ($seperateLines as $lines) {
+            //first line in data should not start with a comma
+            if (!$FirstLine) {
+                $jsonData .= ',';
+            } else $FirstLine = false;
+
+            //seperate $xvalue as the first coordinate,and the rest in an array in $yvalue
+            list($xvalue, $yvalue) = explode(',', $lines, 2);
+            $jsonData .= '"' . $xvalue . '":'; // "xvalue:"
+
+            $yCoordinates = explode(',', $yvalue);
+            if (count($yCoordinates) > 1) { //more than 1 coordinate. Store it as an array of y coordinates
+                $jsonData .= '[';
+
+                foreach ($yCoordinates as $y) {
+                    if (empty($yValue) && $y !== '0') {
+                        $jsonData .= 'null,';
+                    } else {
+                        $jsonData .= $y . ',';
+                    }
+                }
+
+                $jsonData = rtrim($jsonData, ",");
+                $jsonData .= ']';
+            } else {
+                if (empty($yvalue) && $yvalue !== '0') {
+                    $jsonData .= 'null,';
+                } else {
+                    $jsonData .= $yvalue;
+                }
+            }
+        }
+
+        $jsonData .= '}';
+        return $jsonData;
     }
 }
