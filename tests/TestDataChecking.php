@@ -87,7 +87,7 @@ class TestDataChecking extends UnitTestCase {
         $testData = ['Title' => 'test', 'data' => 'test,1,2,3'];
         $this->assertTrue($ProcessController->validate($testData), 'One line of data');
 
-        $testData['data'] .= '\n';
+        $testData['data'] .= "\n";
         $this->assertFalse($ProcessController->validate($testData), 'accidental new line');
 
         $testData['data'] .= 'test, 1, 2, 3, 4, 5';
@@ -96,16 +96,16 @@ class TestDataChecking extends UnitTestCase {
         $str = '';
         for ($i=1; $i <= 49; $i++) {
             $str = $str . 'test, 1, 2, 3, 4, 5';
-            if($i != 49) { $str .= '\n'; }
+            if($i != 49) { $str .= "\n"; }
         }
 
         $testData['data'] = $str;
         $this->assertTrue($ProcessController->validate($testData), '49 lines of data');
 
-        $testData['data'] .= '\ntest, 1,2,3,4,5';
+        $testData['data'] .= "\ntest, 1,2,3,4,5";
         $this->assertTrue($ProcessController->validate($testData), '50 lines of data');
 
-        $testData['data'] .= '\ntest, 1,2,3,4,5';
+        $testData['data'] .= "\ntest, 1,2,3,4,5";
         $this->assertFalse($ProcessController->validate($testData), '51 lines of data');
     }
 }

@@ -44,7 +44,7 @@ class ProcessController extends Controller {
 
         $formatdata = preg_replace("/\r\n/", "\n", $info['data']);
 
-        $lines = explode('\n', $formatdata);
+        $lines = \explode("\n", $formatdata);
         if (count($lines) > 50) { return false; }
 
         foreach ($lines as $lineValue) {
