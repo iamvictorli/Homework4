@@ -10,8 +10,8 @@ if (!isset($_REQUEST['c'])) {
     $MainViewController->invoke();
 } else {
     if ($_REQUEST['c'] === 'ProcoessController' && $_REQUEST['m'] === 'invoke') {
-        $ProcoessController = new C\ProcoessController();
-        $ProcoessController->invoke($_REQUEST);
+        $ProcessController = new C\ProcessController();
+        $ProcessController->invoke($_REQUEST);
     }
     else if ($_REQUEST['c'] === 'chart' && $_REQUEST['a'] === 'show') {
         $ChartsController = new C\ChartsController();

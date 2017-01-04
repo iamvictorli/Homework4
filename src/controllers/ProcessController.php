@@ -9,7 +9,7 @@ use VictorLi\hw4\configs as C;
 /**
  * Server-side validation on user-input
  */
-class ProcoessController extends Controller {
+class ProcessController extends Controller {
     public function invoke($info = []) {
         $chartInfo = [];
         $chartInfo['Title'] = $info['Chart_Title'];
@@ -48,7 +48,7 @@ class ProcoessController extends Controller {
         if (count($lines) > 50) { return false; }
 
         foreach ($lines as $lineValue) {
-            if (count($lineValue) > 80) { return false; }
+            if (strlen($lineValue) > 80) { return false; }
             $removeSpacesLine = preg_replace("/\s+/", "", $lineValue);
 
             //splitLines is an array that seperates all the commas in the line
@@ -56,7 +56,7 @@ class ProcoessController extends Controller {
             if (ctype_alpha($splitLines[0]) && strlen($splitLines[0]) > 0 && count($splitLines) > 1 && count($splitLines) <= 6) {
 
                 for ($i=1; $i < count($splitLines); $i++) {
-                    if (!is_numeric($splitLines[$i])) {
+                    if (!is_numeric($splitLines[$i]) && !empty($splitLines[$i])) {
                         return false;
                     }
                 }
