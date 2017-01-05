@@ -9,15 +9,10 @@ use VictorLi\hw4\views\helper as H;
  */
 class GraphElement extends Element {
     function render($data) {
-        if($data['graphtype'] === 'LineGraph') {
-            $LineGraph = new H\LineGraphHelper();
-            $LineGraph->render($data);
-        } else if($data['graphtype'] === 'PointGraph') {
-            $PointGraph = new H\PointGraphHelper();
-            $PointGraph->render($data);
-        } else if($data['graphtype'] === 'Histogram') {
-            $Histogram = new H\HistogramHelper();
-            $Histogram->render($data);
+        if($data['graphtype'] === 'LineGraph' || $data['graphtype'] === 'PointGraph' || $data['graphtype'] === 'Histogram') {
+            $graph = new H\graphHelper();
+            $graph->render($data);
+
         } else if($data['graphtype'] === 'XML') {
             $XML = new H\XMLHelper();
             $XML->render($data);
