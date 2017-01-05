@@ -5,7 +5,7 @@ namespace VictorLi\hw4\views\helper;
 /**
  * display Line graph
  */
-class LineGraphHelper {
+class LineGraphHelper extends Helper {
     function render($data) {
         ?>
             <div id="LineGraph"></div>
