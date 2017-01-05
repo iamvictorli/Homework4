@@ -17,12 +17,16 @@ function Chart(chart_id, data)
 {
     var self = this;
     var p = Chart.prototype;
+    //initialize different colors for different y values
+    this.colorcoding=['rgb(0,0,255)','rgb(178,244,0)','rgb(244,134,0)','rgb(244,0,0)','rgb(0,219,244)'];
     var properties = (typeof arguments[2] !== 'undefined') ?
         arguments[2] : {};
     var container = document.getElementById(chart_id);
     if (!container) {
         return false;
     }
+    this.plotted_points=[];
+	this.previous_plotted_point="";
     var property_defaults = {
         'axes_color' : 'rgb(128,128,128)', // color of the x and y axes lines
         'caption' : '', // caption text appears at bottom
@@ -84,17 +88,51 @@ function Chart(chart_id, data)
         self.end;
         var key;
         for (key in data) {
-            if (self.min_value === null) {
-                self.min_value = data[key];
-                self.max_value = data[key];
-                self.start = key;
+            if(typeof data[key] == "object" && data[key] != null) {
+			    //remove empty values before calculating min and max
+    			var datavalues=[];
+    			for(var i=0;i<data[key].length;i++) {
+    				if(!isNaN(parseFloat(data[key][i]))) {
+    					datavalues.push(data[key][i]);
+    				}
+    			}
+
+    			if (self.min_value === null) {
+    				self.min_value=Math.min.apply(null,datavalues);
+    				self.max_value=Math.max.apply(null,datavalues);
+    				self.start = key;
+    			}
+    			else {
+    				if(Math.min.apply(null,datavalues) < self.min_value) {
+    					self.min_value=Math.min.apply(null,datavalues);
+    				}
+    				if(Math.max.apply(null,datavalues) > self.max_value) {
+    					self.max_value=Math.max.apply(null,datavalues);
+    				}
+    			}
+
+		    } else {
+                if (self.min_value === null) {
+    				if(!isNaN(parseFloat(data[key]))) {
+
+    					self.min_value = data[key];
+    					self.max_value = data[key];
+    					self.start = key;
+    				}
+
+			    } else {
+    				if(!isNaN(parseFloat(data[key]))){
+
+    					if (data[key] < self.min_value) {
+    		        		self.min_value = data[key];
+    		    		}
+    		    		if (data[key] > self.max_value) {
+    		        		self.max_value = data[key];
+    		    		}
+    				}
+			    }
             }
-            if (data[key] < self.min_value) {
-                self.min_value = data[key];
-            }
-            if (data[key] > self.max_value) {
-                self.max_value = data[key];
-            }
+
         }
         self.end = key;
         self.range = self.max_value - self.min_value;
@@ -102,12 +140,14 @@ function Chart(chart_id, data)
     /**
      * Used to draw a point at location x,y in the canvas
      */
-    p.plotPoint = function(x,y)
+    p.plotPoint = function(x,y, colorvalue)
     {
         var c = context;
         c.beginPath();
         c.arc(x, y, self.point_radius, 0, 2 * Math.PI, true);
+        c.fillStyle = colorvalue;
         c.fill();
+        this.plotted_points.push(x + "|" + y);
     }
     /**
      * Draws the x and y axes for the chart as well as ticks marks and values
@@ -177,10 +217,24 @@ function Chart(chart_id, data)
         c.fillStyle = self.data_color;
         var height = self.height - self.y_padding - self.tick_length;
         var x = self.x_padding;
+
         for (key in data) {
-            y = self.tick_length + height *
-                (1 - (data[key] - self.min_value)/self.range);
-            self.plotPoint(x, y);
+            var plotdata=[];
+    		if(typeof data[key] == "number" || data[key]==null) {
+    			plotdata.push(data[key]);
+    		} else {
+                plotdata = data[key];
+            }
+
+            for (var i = 0; i < plotdata.length; i++) {
+                if(!isNaN(parseFloat(plotdata[i]))) {
+
+                    y = self.tick_length + height *
+                        (1 - (plotdata[i] - self.min_value)/self.range);
+                    self.plotPoint(x, y, this.colorcoding[i]);
+                }
+            }
+
             x += dx;
         }
     }
@@ -192,19 +246,54 @@ function Chart(chart_id, data)
     {
         self.drawPointGraph();
         var c = context;
-        c.beginPath();
         var x = self.x_padding;
         var dx =  (self.width - 2*self.x_padding) /
             (Object.keys(data).length - 1);
         var height = self.height - self.y_padding  - self.tick_length;
-        c.moveTo(x, self.tick_length + height * (1 -
-            (data[self.start] - self.min_value)/self.range));
-        for (key in data) {
-            y = self.tick_length + height *
-                (1 - (data[key] - self.min_value)/self.range);
-            c.lineTo(x, y);
-            x += dx;
+
+        var begindata = [];
+        if (typeof data[self.start] == "number") {
+            begindata.push(data[self.start]);
+        } else {
+            begindata = data[self.start];
         }
-        c.stroke();
+
+        var numberOfGraphs = begindata.length;
+
+        for (var i = 0; i < numberOfGraphs; i++) {
+            c.beginPath();
+            c.strokeStyle = this.colorcoding[i];
+            c.moveTo(x, self.tick_length + height * (1 -
+                (begindata[i] - self.min_value)/self.range));
+            this.previous_plotted_point=x+"|"+self.tick_length + height *
+                (1 - (begindata[i] - self.min_value)/self.range);
+
+            for (key in data) {
+
+                var plotdata = [];
+                if(numberOfGraphs == 1) {
+                    plotdata.push(data[key]);
+                } else {
+                    plotdata = data[key];
+                }
+
+                if(!isNaN(parseFloat(plotdata[i]))) {
+                    y = self.tick_length + height *
+                        (1 - (plotdata[i] - self.min_value)/self.range);
+                    if(this.plotted_points.indexOf(this.previous_plotted_point) == -1) {
+                        c.moveTo(x,y);
+                    }
+                    else {
+                        c.lineTo(x, y);
+                    }
+                    this.previous_plotted_point = x + "|" + y;
+                }
+
+                x += dx;
+            }
+            c.stroke();
+            x = self.x_padding;
+        }
+
     }
 }
