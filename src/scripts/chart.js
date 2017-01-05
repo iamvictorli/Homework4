@@ -296,4 +296,73 @@ function Chart(chart_id, data)
         }
 
     }
+
+    //draws the x, y values for histogram ticks
+    p.renderAxesForHistogram = function() {
+        var c = context;
+        var height = self.height - self.y_padding;
+        c.strokeStyle = self.axes_color;
+        c.lineWidth = self.line_width;
+        //draw x axis
+        c.beginPath();
+        c.moveTo(self.x_padding - self.tick_length, self.height - self.y_padding);
+        c.lineTo(self.width - self.x_padding, height);
+        c.stroke();
+
+        //draw y axis
+        c.beginPath();
+        c.moveTo(self.x_padding, self.tick_length);
+        c.lineTo(self.x_padding, self.height - self.y_padding + self.tick_length);
+        c.stroke();
+
+        self.min_value = self.min_value - 1;
+        self.range = self.max_value - self.min_value;
+        var spacing_y = self.range/self.ticks_y;
+        height -= self.tick_length;
+
+        var min_y = parseFloat(self.min_value);
+        var max_y = parseFloat(self.max_value);
+        var num_format = new Intl.NumberFormat("en-US", {"maximumFractionDigits" : 2});
+
+        //drawing y ticks and values
+        for(var val = min_y; val < max_y + spacing_y; val += spacing_y) {
+            y = self.tick_length + height *
+                (1 - (val - self.min_value) / self.range);
+
+            c.font = self.tick_font_size + "px serif";
+            c.fillText(num_format.format(val), 0 , y + self.tick_font_size / 2,
+                self.x_padding - self.tick_length);
+            c.beginPath();
+            c.moveTo(self.x_padding - self.tick_length, y);
+            c.lineTo(self.x_padding, y);
+            c.stroke();
+        }
+
+        //draw x ticks and values
+        var dx = (self.width - 2 * self.x_padding) /
+            (Object.keys(data).length);
+        var x = self.x_padding;
+
+        for (var key in data) {
+            c.font = self.tick_font_size + "px serif";
+            c.fillText(key, x - self.tick_font_size / 2 * (key.length - 0.5),
+                self.height - self.y_padding + self.tick_length + self.tick_font_size,
+                self.tick_font_size * (key.length - 0.5));
+            c.beginPath();
+            c.moveTo(x, self.height - self.y_padding + self.tick_length);
+            c.lineTo(x, self.height - self.y_padding);
+            c.stroke();
+            x += dx;
+        }
+
+        c.beginPath();
+        c.moveTo(x, self.height - self.y_padding + self.tick_length);
+        c.lineTo(x, self.height - self.y_padding);
+        c.stroke();
+    }
+
+    p.drawHistogram = function() {
+        self.initMinMaxRange();
+        self.renderAxesForHistogram();
+    }
 }
