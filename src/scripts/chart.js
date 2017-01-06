@@ -361,8 +361,54 @@ function Chart(chart_id, data)
         c.stroke();
     }
 
+    //draws histogram
     p.drawHistogram = function() {
         self.initMinMaxRange();
         self.renderAxesForHistogram();
+
+        var dx = (self.width - 2 * self.x_padding) / (Object.keys(data).length);
+        var dy = (self.height - self.y_padding);
+
+        var histogram_width = dx / 5;
+        var c = context;
+
+        c.lineWidth = self.line_width;
+        c.strokeStyle = self.data_color;
+
+        var height = self.height - self.y_padding - self.tick_length;
+        var x = self.x_padding;
+        var begindata = [];
+
+        if(typeof data[self.start] == "number") {
+            begindata.push(data[self.start]);
+        } else {
+            begindata = data[self.start];
+        }
+
+        var numberOfGraphs = begindata.length;
+        for (var i = 0; i < numberOfGraphs; i++) {
+            x += (i * histogram_width);
+            c.fillStyle = this.colorcoding[i];
+            c.moveTo(x, self.tick_length + height *
+                (1 - (begindata[i] - self.min_value) / self.range));
+
+            for (var key in data) {
+                var plotdata = [];
+                if(numberOfGraphs == 1) {
+                    plotdata.push(data[key]);
+                }  else {
+                    plotdata = data[key];
+                }
+
+                if(!isNaN(parseFloat(plotdata[i]))) {
+                    y = self.tick_length + height *
+                        (1 - (plotdata[i] - self.min_value) / self.range);
+                    c.fillRect(x, y, histogram_width, dy - y);
+                }
+                x += dx;
+            }
+            x = self.x_padding;
+        }
+        c.stroke();
     }
 }
