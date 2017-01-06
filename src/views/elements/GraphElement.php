@@ -13,13 +13,13 @@ class GraphElement extends Element {
             $graph = new H\graphHelper();
             $graph->render($data);
 
-        } else if($data['graphtype'] === 'XML') {
+        } else if($data['graphtype'] === 'xml') {
             $XML = new H\XMLHelper();
             $XML->render($data);
-        } else if($data['graphtype'] === 'JSON') {
+        } else if($data['graphtype'] === 'json') {
             $JSON= new H\JSONHelper();
             $JSON->render($data);
-        } else if($data['graphtype'] === 'JSONP') {
+        } else if($data['graphtype'] === 'jsonp') {
             $JSONP = new H\JSONPHelper();
             $JSONP->render($data);
         } else {
