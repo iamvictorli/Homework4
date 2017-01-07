@@ -7,7 +7,7 @@ use VictorLi\hw4\configs as C;
 class XMLHelper extends Helper {
     function render($data) {
         ?>
-        <pre>&lt;&quest;?xml version="1.0" encoding="UTF-8"?>' <br>
+        <pre>&lt;&quest;xml version="1.0" encoding="UTF-8"?><br>
             &lt;&#33;DOCTYPE Datapoints SYSTEM http://localhost/chart.dtd"> <br>
         &lt;DataPoints&gt;
 
