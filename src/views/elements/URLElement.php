@@ -28,7 +28,7 @@ class URLElement extends Element {
                 <?php echo(BASE_URL . '/?c=chart&a=show&arg1=json&arg2=' . $data['md5']) ?><br>
 
                 As a JSONP: <br>
-                <?php echo(BASE_URL . '/?c=chart&a=show&arg1=jsonp&arg2=' . $data['md5']) ?><br>
+                <?php echo(BASE_URL . '/?c=chart&a=show&arg1=jsonp&arg2=' . $data['md5']) . '&arg3=javscript_callback'?><br>
             </pre>
         <?php
     }

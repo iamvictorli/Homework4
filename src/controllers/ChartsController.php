@@ -20,6 +20,10 @@ class ChartsController extends Controller {
         $data['md5'] = $info['arg2'];
         $data['graphtype'] = $info['arg1'];
 
+        if (isset($info['arg3'])) {
+            $data['callback'] = $info['arg3'];
+        }
+
         $ChartView = new V\ChartView();
         $ChartView->render($data);
     }

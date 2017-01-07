@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT Datapoints (X)+>
+<!ELEMENT X (Y1, (Y2)?, (Y3)?, (Y4)?, (Y5)?)>
+<!ATTLIST X title CDATA #REQUIRED>
+<!ELEMENT Y1 (#PCDATA)>
+<!ELEMENT Y2 (#PCDATA)>
+<!ELEMENT Y3 (#PCDATA)>
+<!ELEMENT Y4 (#PCDATA)>
+<!ELEMENT Y5 (#PCDATA)>

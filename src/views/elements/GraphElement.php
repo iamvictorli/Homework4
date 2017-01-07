@@ -19,7 +19,7 @@ class GraphElement extends Element {
         } else if($data['graphtype'] === 'json') {
             $JSON= new H\JSONHelper();
             $JSON->render($data);
-        } else if($data['graphtype'] === 'jsonp') {
+        } else if($data['graphtype'] === 'jsonp' && isset($data['callback'])) {
             $JSONP = new H\JSONPHelper();
             $JSONP->render($data);
         } else {
